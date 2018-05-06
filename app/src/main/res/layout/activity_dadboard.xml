@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.duy.demotab.Other.Dadboard">
+    tools:context="com.example.duy.demotab.Other.Dasdboard">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
     <GridView
         android:background="#e9e4e4"
         android:horizontalSpacing="2dp"
-        android:numColumns="3"
+        android:numColumns="2"
         android:id="@+id/grTab"
         android:layout_weight="1"
         android:layout_width="match_parent"

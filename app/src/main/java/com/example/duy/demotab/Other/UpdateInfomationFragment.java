@@ -2,10 +2,16 @@ package com.example.duy.demotab.Other;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.media.Image;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.net.wifi.p2p.WifiP2pDevice;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -44,10 +50,18 @@ public class UpdateInfomationFragment extends Fragment {
     private RadioButton rdFemale;
     private Button btnUpdate;
     private View view;
+    private boolean flag;
     private String urlUpdate = "https://andrp2p.000webhostapp.com/plattform/update.php";
+    private String urlInsert = "https://andrp2p.000webhostapp.com/plattform/insert.php";
     int REQUEST_CODE_CAMERA =123;
 
     private SendData sendData;
+
+    public String getPhoneName() {
+        String deviceName = WiFiDirectBroadcastReceiver.getWifiDeviceName();
+        System.out.println("device "+ deviceName);
+        return deviceName;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -55,10 +69,10 @@ public class UpdateInfomationFragment extends Fragment {
         sendData= (SendData) getActivity();
 
         view=inflater.inflate(R.layout.activity_change_infomation,container,false);
-        Toast.makeText(getActivity(), Build.MODEL, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), this.getPhoneName(), Toast.LENGTH_SHORT).show();
 
         AnhXa();
-        GetAvailableInfomationAndShow();
+        flag = GetAvailableInfomationAndShow();
 
         //thay đổi avata
         imgAvatar.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +87,7 @@ public class UpdateInfomationFragment extends Fragment {
         return view;
     }
 
-    private void GetAvailableInfomationAndShow() {
+    private Boolean GetAvailableInfomationAndShow() {
         SharedPreferences myFile = getActivity().getSharedPreferences("myFile1",Activity.MODE_PRIVATE);
         if( (myFile != null) && (myFile.contains("Name"))){
             String temp = myFile.getString("Name", "***");
@@ -87,7 +101,10 @@ public class UpdateInfomationFragment extends Fragment {
             else {
                 rdFemale.setChecked(true);
             }
+            return true;
         }
+        return false;
+
     }
 
     @Override
@@ -126,7 +143,11 @@ public class UpdateInfomationFragment extends Fragment {
                     }
                     myEditor.putString("Sex", temp);
                     myEditor.commit();
-                    UpdateInfo(urlUpdate);
+                    if (!flag) {
+                        AddUser(urlInsert);
+                    } else {
+                        UpdateInfo(urlUpdate);
+                    }
 
                     sendData.CheckInfomation(true);
                 }
@@ -136,6 +157,43 @@ public class UpdateInfomationFragment extends Fragment {
             }
         });
     }
+
+    private void AddUser(String url){
+        com.android.volley.RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (response.trim().equals("success")){
+                    Toast.makeText(getActivity(),"Đăng ký thành công!",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(),"Lỗi!",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(),"Lỗi kết nối!",Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("nameUser", edtName.getText().toString().trim());
+                params.put("ageUser", edtAge.getText().toString().trim());
+                if (rdMale.isChecked()){
+                    params.put("genderUser", "1");
+                }
+                if (rdFemale.isChecked()){
+                    params.put("genderUser", "0");
+                }
+                params.put("modelUser", getPhoneName().toString().trim());
+
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
     private void UpdateInfo(String url){
         com.android.volley.RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -164,7 +222,7 @@ public class UpdateInfomationFragment extends Fragment {
                 if (rdFemale.isChecked()){
                     params.put("genderUser", "0");
                 }
-                params.put("modelUser", Build.MODEL.toString().trim());
+                params.put("modelUser", getPhoneName().trim());
                 return params;
             }
         };

@@ -6,4 +6,5 @@ package com.example.duy.demotab.Other;
 
 public interface SendDataFromActToFragment {
     public void SendDataTypeString(String mess);
+    public void SendDataUserId(String mess);
 }

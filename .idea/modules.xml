@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ChatP2P.iml" filepath="$PROJECT_DIR$/ChatP2P.iml" />
+      <module fileurl="file://$PROJECT_DIR$/androidFinal.iml" filepath="$PROJECT_DIR$/androidFinal.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\Tran Manh Chung\Desktop\Chat p2p\ChatP2P\demoTab.iml" filepath="C:\Users\Tran Manh Chung\Desktop\Chat p2p\ChatP2P\demoTab.iml" />
     </modules>
   </component>
 </project>

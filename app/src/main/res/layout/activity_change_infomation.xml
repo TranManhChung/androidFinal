@@ -4,43 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:windowSoftInputMode="adjustPan|stateHidden"
     tools:context="com.example.duy.demotab.Other.MainActivity">
 
     <ImageView
         android:id="@+id/imgAvatarInfomation"
         android:layout_width="226dp"
-        android:layout_height="227dp"
+        android:layout_height="205dp"
+        android:layout_marginBottom="212dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
         android:background="@drawable/icon"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
         android:text="Tên (*):"
         android:textColor="#1ca8ff"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgAvatarInfomation"
-        tools:ignore="MissingConstraints"
-        android:layout_marginLeft="16dp" />
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/edtNameInfomation"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
 
+        android:layout_marginTop="8dp"
         android:background="@drawable/custom_button"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,21 +53,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="44dp"
         android:text="Tuổi(*):"
         android:textColor="#1ca8ff"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:ignore="MissingConstraints"
-        android:layout_marginLeft="16dp" />
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/edtAgeInfomation"
         android:layout_width="79dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/custom_button"
         android:padding="10dp"
         app:layout_constraintStart_toEndOf="@+id/textView2"
@@ -78,27 +77,28 @@
         android:id="@+id/btnUpdateInfomation"
         android:layout_width="114dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="56dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="52dp"
         android:background="@drawable/custom_button"
         android:text="CẬP NHẬT"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
         tools:ignore="MissingConstraints" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="0dp"
-        android:layout_height="41dp"
+        android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/custom_button"
         android:orientation="horizontal"
         android:weightSum="3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/edtAgeInfomation"
         app:layout_constraintTop_toBottomOf="@+id/edtNameInfomation"
         tools:ignore="MissingConstraints">

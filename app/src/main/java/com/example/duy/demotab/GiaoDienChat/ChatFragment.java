@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.duy.demotab.Other.Dadboard;
 import com.example.duy.demotab.Other.SendData;
 import com.example.duy.demotab.Other.SendDataFromActToFragment;
 import com.example.duy.demotab.R;
@@ -29,6 +28,7 @@ import java.util.List;
 public class ChatFragment extends Fragment implements View.OnClickListener,SendDataFromActToFragment {
     private View view;
     private SendData sendData;
+    private String id = "";
 
     @Nullable
     @Override
@@ -43,7 +43,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener,SendD
 //        id=intent.getStringExtra("ID");
 
         //fake user id for testing
-        id = "saya";
+//        id = "saya";
 
         AnhXa();
         Handle();
@@ -60,8 +60,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener,SendD
     private Button button;
     private List<Message> data;
     private ChatAdapter adapter;
-    private String id;
-
     //storage
     private ChatHistory chatHistory;
     private AppDatabase appDatabase;
@@ -131,5 +129,10 @@ public class ChatFragment extends Fragment implements View.OnClickListener,SendD
         data.add(new Message(R.drawable.icon,id,"Ai",mess));
         this.SaveChatLog();
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void SendDataUserId(String id) {
+        this.id = id;
     }
 }

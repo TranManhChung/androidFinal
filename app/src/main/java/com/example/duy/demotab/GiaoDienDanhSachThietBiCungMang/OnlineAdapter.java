@@ -72,7 +72,7 @@ public class OnlineAdapter extends BaseAdapter {
         }
 
         //set value from data
-        System.out.println("data" + data.get(1).name);
+//        System.out.println("data" + data.get(1).name);
         if (data!=null) {
             holder.txtSexOnline.setText( data.get(i).sex == 1 ? "Nữ" : "Nam");
             holder.txtAgeOnline.setText(Integer.toString(data.get(i).age));

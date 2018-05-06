@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.NetworkInfo;
+import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.widget.Toast;
 
@@ -12,20 +13,28 @@ import android.widget.Toast;
  */
 
 public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
+    private static String thisDeviceName;
     private WifiP2pManager mManager;
     private WifiP2pManager.Channel mChannel;
+//    private String thisDeviceName = "";
 //    private MainActivity mActivity;
-    private Dadboard mDadboard;
+    private Dasdboard mDadboard;
 
-    public WiFiDirectBroadcastReceiver(WifiP2pManager mManager, WifiP2pManager.Channel mChannel, Dadboard dadboard)
+    public WiFiDirectBroadcastReceiver(WifiP2pManager mManager, WifiP2pManager.Channel mChannel, Dasdboard dadboard)
     {
         this.mManager = mManager;
         this.mChannel = mChannel;
         this.mDadboard = dadboard;
     }
 
+    public static String getWifiDeviceName() {
+        return thisDeviceName;
+    }
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        //get device wifi name
+//        WifiP2pDevice device = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE);
         String action = intent.getAction();
 
         if(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION.equals(action)){
@@ -57,8 +66,11 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
             }else {
 //                mDadboard.connectionStatus.setText("Device Disconnected");
             }
-        }else if(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)){
-            //do something
+        }else if(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)) {
+            //get wifi device name
+            WifiP2pDevice device = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE);
+            System.out.println("devicenAME "+ device.deviceName);
+            thisDeviceName = device.deviceName;
         }
 
     }

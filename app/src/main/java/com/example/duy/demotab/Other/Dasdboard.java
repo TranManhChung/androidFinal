@@ -5,19 +5,19 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
+import android.net.wifi.p2p.WifiP2pGroup;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Message;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,7 +45,7 @@ import java.util.List;
 import android.os.Handler;
 import android.net.wifi.p2p.WifiP2pConfig;
 
-public class Dadboard extends AppCompatActivity implements SendData{
+public class Dasdboard extends AppCompatActivity implements SendData{
 
     private ChatFragment chatFragment;
     private boolean checkInfoRegister=true;
@@ -76,15 +76,15 @@ public class Dadboard extends AppCompatActivity implements SendData{
         grTab=(GridView)findViewById(R.id.grTab);
         arrayHinh= new ArrayList<>();
 
-        arrayHinh.add(new HinhAnh("hinh1",R.drawable.message));
+//        arrayHinh.add(new HinhAnh("hinh1",R.drawable.message));
         arrayHinh.add(new HinhAnh("hinh3",R.drawable.people));
         arrayHinh.add(new HinhAnh("hinh2",R.drawable.information4));
 
         adapter=new TabAdapter(getApplicationContext(),R.layout.dong_tab,arrayHinh);
         grTab.setAdapter(adapter);
         //mac dinh vo cai ben dui
-        transaction=getFragmentManager().beginTransaction();
-        fragment=new SaveMessageFragment();
+        transaction= getFragmentManager().beginTransaction();
+        fragment=new UpdateInfomationFragment();
         transaction.replace(R.id.frLayout,fragment);
         transaction.commit();
         //chon tab thay doi trang
@@ -94,22 +94,21 @@ public class Dadboard extends AppCompatActivity implements SendData{
 
                 if(checkInfoRegister==true){
                     transaction=getFragmentManager().beginTransaction();
-                    if(deviceNameArray==null&&i==1){
+                    //check tab name, i: tab position
+                    if(deviceNameArray==null&&i==0){
                         i=-1;
-                        Toast.makeText(Dadboard.this, "Hiện tại chưa có thiết bị nào gần bạn!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Dasdboard.this, "Hiện tại chưa có thiết bị nào gần bạn!", Toast.LENGTH_SHORT).show();
                     }
                     if(i>=0){
                         switch (i){
+
                             case 0:
-                                fragment=new SaveMessageFragment();
-                                break;
-                            case 1:
                                 Bundle bundle=new Bundle();
                                 bundle.putStringArray("LIST_ONLINE",deviceNameArray);
                                 fragment=new ListOnlineFragment();
                                 fragment.setArguments(bundle);
                                 break;
-                            case 2:
+                            case 1:
                                 fragment=new UpdateInfomationFragment();
                                 break;
                         }
@@ -118,7 +117,7 @@ public class Dadboard extends AppCompatActivity implements SendData{
                     }
                 }
                 else {
-                    Toast.makeText(Dadboard.this, "Vui long dang ky thong tin truoc khi su dung", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Dasdboard.this, "Vui long dang ky thong tin truoc khi su dung", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -175,6 +174,11 @@ public class Dadboard extends AppCompatActivity implements SendData{
         if(value==true){
             checkInfoRegister=true;
         }
+    }
+
+    @Override
+    public void ChooseUserId(String userId) {
+        chatFragment.SendDataUserId(userId);
     }
 
     @Override
@@ -246,16 +250,42 @@ public class Dadboard extends AppCompatActivity implements SendData{
                 mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
                             @Override
                             public void onSuccess() {
-                                Toast.makeText(Dadboard.this, "Discovery Started", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Dasdboard.this, "Discovery Started", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
                             public void onFailure(int i) {
-                                Toast.makeText(Dadboard.this, "Discovery Starting Failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Dasdboard.this, "Discovery Starting Failed", Toast.LENGTH_SHORT).show();
                             }
                 });
 
     }
+
+    public void disconnect() {
+        if (mManager != null && mChannel != null) {
+            mManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
+                @Override
+                public void onGroupInfoAvailable(WifiP2pGroup group) {
+                    if (group != null && mManager != null && mChannel != null
+                            && group.isGroupOwner()) {
+                        mManager.removeGroup(mChannel, new WifiP2pManager.ActionListener() {
+
+                            @Override
+                            public void onSuccess() {
+//                                Log.d(TAG, "removeGroup onSuccess -");
+                            }
+
+                            @Override
+                            public void onFailure(int reason) {
+//                                Log.d(TAG, "removeGroup onFailure -" + reason);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
+
 
     private void initialWork() {
 
@@ -291,7 +321,7 @@ public class Dadboard extends AppCompatActivity implements SendData{
                     deviceNameArray[index]=device.deviceName;
                     deviceArray[index]=device;
 
-                    Toast.makeText(Dadboard.this, deviceNameArray[index], Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Dasdboard.this, deviceNameArray[index], Toast.LENGTH_SHORT).show();
                     index++;
                 }
 
@@ -327,6 +357,10 @@ public class Dadboard extends AppCompatActivity implements SendData{
     @Override
     protected void onResume() {
         super.onResume();
+        if(!wifiManager.isWifiEnabled())
+        {
+            wifiManager.setWifiEnabled(true);
+        }
         registerReceiver(mReceiver,mIntentFilter);
     }
 
@@ -334,7 +368,15 @@ public class Dadboard extends AppCompatActivity implements SendData{
     protected void onPause() {
         super.onPause();
         unregisterReceiver(mReceiver);
+        if(wifiManager.isWifiEnabled())
+        {
+            wifiManager.setWifiEnabled(false);
+        }
+        wifiManager.setWifiEnabled(true);
+//        this.disconnect();
+//        finish();
     }
+
 
     public class ServerClass extends Thread{
         Socket socket;

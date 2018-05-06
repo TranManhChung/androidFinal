@@ -1,6 +1,7 @@
 package com.example.duy.demotab.Storage;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
@@ -23,4 +24,6 @@ public interface ChatHistoryDao {
     @Query("select * from chatHistory where userId=:userId")
     public ChatHistory getChatHistory(String userId);
 
+    @Delete
+    public void clearChat(ChatHistory chatHistory);
 }

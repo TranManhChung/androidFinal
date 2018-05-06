@@ -8,4 +8,5 @@ public interface SendData {
     public void SendDataTypeInt(int pos);
     public void SendDataTypeString(String mess);
     public void CheckInfomation(boolean value);//chuyen bien kiem tra co dang ky thong tin chua ve cho dadboard
+    public void ChooseUserId(String userId);
 }
