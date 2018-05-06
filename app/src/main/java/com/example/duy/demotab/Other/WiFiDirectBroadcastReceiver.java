@@ -18,9 +18,9 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
     private WifiP2pManager.Channel mChannel;
 //    private String thisDeviceName = "";
 //    private MainActivity mActivity;
-    private Dasdboard mDadboard;
+    private DashBoard mDadboard;
 
-    public WiFiDirectBroadcastReceiver(WifiP2pManager mManager, WifiP2pManager.Channel mChannel, Dasdboard dadboard)
+    public WiFiDirectBroadcastReceiver(WifiP2pManager mManager, WifiP2pManager.Channel mChannel, DashBoard dadboard)
     {
         this.mManager = mManager;
         this.mChannel = mChannel;

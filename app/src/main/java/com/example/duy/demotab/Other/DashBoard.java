@@ -7,6 +7,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
@@ -14,10 +16,10 @@ import android.net.wifi.p2p.WifiP2pGroup;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +30,6 @@ import android.widget.Toast;
 import com.example.duy.demotab.Fragment.HinhAnh;
 import com.example.duy.demotab.Fragment.TabAdapter;
 import com.example.duy.demotab.GiaoDienChat.ChatFragment;
-import com.example.duy.demotab.GiaoDienLuuTruTinNhan.SaveMessageFragment;
 import com.example.duy.demotab.GiaoDienDanhSachThietBiCungMang.ListOnlineFragment;
 import com.example.duy.demotab.R;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -45,7 +46,7 @@ import java.util.List;
 import android.os.Handler;
 import android.net.wifi.p2p.WifiP2pConfig;
 
-public class Dasdboard extends AppCompatActivity implements SendData{
+public class DashBoard extends AppCompatActivity implements SendData{
 
     private ChatFragment chatFragment;
     private boolean checkInfoRegister=true;
@@ -97,7 +98,7 @@ public class Dasdboard extends AppCompatActivity implements SendData{
                     //check tab name, i: tab position
                     if(deviceNameArray==null&&i==0){
                         i=-1;
-                        Toast.makeText(Dasdboard.this, "Hiện tại chưa có thiết bị nào gần bạn!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DashBoard.this, "Hiện tại chưa có thiết bị nào gần bạn!", Toast.LENGTH_SHORT).show();
                     }
                     if(i>=0){
                         switch (i){
@@ -117,7 +118,7 @@ public class Dasdboard extends AppCompatActivity implements SendData{
                     }
                 }
                 else {
-                    Toast.makeText(Dasdboard.this, "Vui long dang ky thong tin truoc khi su dung", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DashBoard.this, "Vui long dang ky thong tin truoc khi su dung", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -250,12 +251,12 @@ public class Dasdboard extends AppCompatActivity implements SendData{
                 mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
                             @Override
                             public void onSuccess() {
-                                Toast.makeText(Dasdboard.this, "Discovery Started", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DashBoard.this, "Discovery Started", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
                             public void onFailure(int i) {
-                                Toast.makeText(Dasdboard.this, "Discovery Starting Failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DashBoard.this, "Discovery Starting Failed", Toast.LENGTH_SHORT).show();
                             }
                 });
 
@@ -321,7 +322,7 @@ public class Dasdboard extends AppCompatActivity implements SendData{
                     deviceNameArray[index]=device.deviceName;
                     deviceArray[index]=device;
 
-                    Toast.makeText(Dasdboard.this, deviceNameArray[index], Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DashBoard.this, deviceNameArray[index], Toast.LENGTH_SHORT).show();
                     index++;
                 }
 
@@ -345,11 +346,13 @@ public class Dasdboard extends AppCompatActivity implements SendData{
 //                connectionStatus.setText("Host");
                 serverClass=new ServerClass();
                 serverClass.start();
+                System.out.println("serverCreated");
             }else if(wifiP2pInfo.groupFormed)
             {
 //                connectionStatus.setText("Client");
                 clientClass=new ClientClass(groupOwnerAddress);
                 clientClass.start();
+                System.out.println("clientCreated");
             }
         }
     };
@@ -367,13 +370,25 @@ public class Dasdboard extends AppCompatActivity implements SendData{
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(mReceiver);
-        if(wifiManager.isWifiEnabled())
-        {
-            wifiManager.setWifiEnabled(false);
-        }
-        wifiManager.setWifiEnabled(true);
+//        mManager.cancelConnect(mChannel,new WifiP2pManager.ActionListener() {
+//            @Override
+//            public void onSuccess() {
+//                Toast.makeText(DashBoard.this, "Discovery Started", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onFailure(int i) {
+//                Toast.makeText(DashBoard.this, "Discovery Starting Failed", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 //        this.disconnect();
+        unregisterReceiver(mReceiver);
+//        if(wifiManager.isWifiEnabled())
+//        {
+//            wifiManager.setWifiEnabled(false);
+//        }
+//        wifiManager.setWifiEnabled(true);
+
 //        finish();
     }
 
