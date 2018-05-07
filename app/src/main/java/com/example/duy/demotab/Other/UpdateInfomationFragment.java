@@ -1,5 +1,6 @@
 package com.example.duy.demotab.Other;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
@@ -17,6 +18,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -83,20 +85,14 @@ public class UpdateInfomationFragment extends Fragment {
         }
         flag = GetAvailableInfomationAndShow();
 
-        //thay đổi avata
-//        imgAvatar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                startActivityForResult(intent,REQUEST_CODE_CAMERA );
-//            }
-//        });
+
 
         imgCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,REQUEST_CODE_CAMERA );
+//                Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(intent,REQUEST_CODE_CAMERA );
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA);
             }
         });
 
@@ -168,7 +164,9 @@ public class UpdateInfomationFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
            Uri imageUri = data.getData(); //Lấy ra uri của image
-            imgAvatar.setImageURI(imageUri); //Set image lựa chọn theo uri
+            imgAvatar.setImageURI(imageUri); //Set image lựa chọn theo uri\
+            //new
+
         }
         if(requestCode==REQUEST_CODE_CAMERA &&resultCode==RESULT_OK&&data!=null){
             Bitmap bitmap= (Bitmap) data.getExtras().get("data");
@@ -249,7 +247,7 @@ public class UpdateInfomationFragment extends Fragment {
                     params.put("genderUser", "0");
                 }
                 params.put("modelUser", getPhoneName().toString().trim());
-
+                //params.put("avaUser", ***);
                 return params;
             }
         };
@@ -285,6 +283,7 @@ public class UpdateInfomationFragment extends Fragment {
                     params.put("genderUser", "0");
                 }
                 params.put("modelUser", getPhoneName().trim());
+                //params.put("avaUser", ***);
                 return params;
             }
         };
