@@ -39,11 +39,11 @@ public class SplashScreen extends AppCompatActivity {
 
         //Button btnDangKy=(Button)findViewById(R.id.btnDangKy);
 
-        wifiManager= (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-
-        //reset wifi
-        wifiManager.setWifiEnabled(false);
-        wifiManager.setWifiEnabled(true);
+//        wifiManager= (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+//
+//        //reset wifi
+//        wifiManager.setWifiEnabled(false);
+//        wifiManager.setWifiEnabled(true);
 
         Thread myThread= new Thread() {
             @Override
@@ -51,9 +51,9 @@ public class SplashScreen extends AppCompatActivity {
                 try {
                     //check if wifi is connected
                     //if not then just sleep for  second
-                    while (!checkWifiOnAndConnected()) {
+                    do {
                         sleep(3000);
-                    }
+                    }while (!checkWifiOnAndConnected());
 
                     Intent intent = new Intent(SplashScreen.this, DashBoard.class);
                     startActivity(intent);

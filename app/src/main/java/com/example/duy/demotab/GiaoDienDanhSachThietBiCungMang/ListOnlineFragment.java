@@ -71,9 +71,8 @@ public class ListOnlineFragment extends ListFragment {
 
         //fake data for users
         appDatabase = AppDatabase.getDatabase(getActivity());
-        //appDatabase.userDao().addUser(new User("saya", "saya", 10, 1, R.drawable.icon));
-        //appDatabase.userDao().addUser(new User("shion2", "shion", 14, 1, R.drawable.icon));
-        //appDatabase.userDao().addUser(new User("kurisu3", "kurisu", 18, 1, R.drawable.icon));
+        //clear old data
+        appDatabase.userDao().ClearUser();
         GetData(urlGetdata);
         //GetUser(urlGetdata);
         List<User> users = appDatabase.userDao().getAllUser();

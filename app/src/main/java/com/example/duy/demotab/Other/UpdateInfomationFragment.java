@@ -72,6 +72,12 @@ public class UpdateInfomationFragment extends Fragment {
         Toast.makeText(getActivity(), this.getPhoneName(), Toast.LENGTH_SHORT).show();
 
         AnhXa();
+
+        btnUpdate.setEnabled(false);
+
+        if (checkWifiOnAndConnected()) {
+            btnUpdate.setEnabled(true);
+        }
         flag = GetAvailableInfomationAndShow();
 
         //thay đổi avata
@@ -105,6 +111,23 @@ public class UpdateInfomationFragment extends Fragment {
         }
         return false;
 
+    }
+
+    private boolean checkWifiOnAndConnected() {
+        WifiManager wifiMgr = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
+        if (wifiMgr.isWifiEnabled()) { // Wi-Fi adapter is ON
+
+            WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
+
+            if( wifiInfo.getNetworkId() == -1 ){
+                return false; // Not connected to an access point
+            }
+            return true; // Connected to an access point
+        }
+        else {
+            return false; // Wi-Fi adapter is OFF
+        }
     }
 
     @Override
@@ -150,6 +173,7 @@ public class UpdateInfomationFragment extends Fragment {
                     }
 
                     sendData.CheckInfomation(true);
+                    btnUpdate.setEnabled(false);
                 }
                 else {
                     Toast.makeText(getActivity(), "Bạn điền thông tin chưa đầy đủ", Toast.LENGTH_SHORT).show();

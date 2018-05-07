@@ -23,6 +23,6 @@ public interface UserDao {
     @Query("select * from user where id= :userId")
     public User getUser(String userId);
 
-    @Delete
-    public void CleatUser(User user);
+    @Query("delete from user")
+    public void ClearUser();
 }
