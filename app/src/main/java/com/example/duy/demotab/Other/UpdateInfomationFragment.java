@@ -32,9 +32,16 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.duy.demotab.R;
+import com.example.duy.demotab.Storage.AppDatabase;
+import com.example.duy.demotab.Storage.User;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +64,9 @@ public class UpdateInfomationFragment extends Fragment {
 
     private SendData sendData;
 
+    private String urlGetdata = "https://andrp2p.000webhostapp.com/plattform/getdata.php";
+    private AppDatabase appDatabase;
+
     public String getPhoneName() {
         String deviceName = WiFiDirectBroadcastReceiver.getWifiDeviceName();
         System.out.println("device "+ deviceName);
@@ -66,6 +76,10 @@ public class UpdateInfomationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
+//        appDatabase = AppDatabase.getDatabase(getActivity());
+        //clear old data
+//        appDatabase.userDao().ClearUser();
+//        GetData(urlGetdata);
         sendData= (SendData) getActivity();
 
         view=inflater.inflate(R.layout.activity_change_infomation,container,false);
@@ -261,4 +275,33 @@ public class UpdateInfomationFragment extends Fragment {
         rdFemale=(RadioButton)view.findViewById(R.id.rdFemaleInfomation);
         btnUpdate=(Button)view.findViewById(R.id.btnUpdateInfomation);
     }
+
+//    private void GetData(String url){
+//        com.android.volley.RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+//            @Override
+//            public void onResponse(JSONArray response) {
+//                for (int i = 0; i < response.length(); i++){
+//                    try {
+//                        JSONObject object = response.getJSONObject(i);
+//                        if(object.getString("Model").compareTo(getPhoneName()) != 0){
+//                        appDatabase.userDao().addUser(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender"), R.drawable.icon));
+//                        }
+//                        //arrayUser.add(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender")));
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Toast.makeText(getActivity(), "Lỗi!",Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//        );
+//        requestQueue.add(jsonArrayRequest);
+//
+//    }
 }

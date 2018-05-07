@@ -47,7 +47,7 @@ public class ListOnlineFragment extends ListFragment {
     private OnlineAdapter adapter;
 //    private ArrayAdapter adapter;
     private SendData sendData;
-    private String urlGetdata = "https://andrp2p.000webhostapp.com/plattform/getdata.php";
+//    private String urlGetdata = "https://andrp2p.000webhostapp.com/plattform/getdata.php";
     private User user;
     private AppDatabase appDatabase;
 
@@ -71,9 +71,8 @@ public class ListOnlineFragment extends ListFragment {
 
         //fake data for users
         appDatabase = AppDatabase.getDatabase(getActivity());
-        //clear old data
-        appDatabase.userDao().ClearUser();
-        GetData(urlGetdata);
+
+//        GetData(urlGetdata);
         //GetUser(urlGetdata);
         List<User> users = appDatabase.userDao().getAllUser();
         onlineUsers = new ArrayList<>();
@@ -128,33 +127,33 @@ public class ListOnlineFragment extends ListFragment {
     }
 
 
-    private void GetData(String url){
-        com.android.volley.RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                for (int i = 0; i < response.length(); i++){
-                    try {
-                        JSONObject object = response.getJSONObject(i);
-                        if(object.getString("Model").compareTo(getPhoneName()) != 0){
-                        appDatabase.userDao().addUser(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender"), R.drawable.icon));
-                        }
-                        //arrayUser.add(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender")));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), "Lỗi!",Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-        requestQueue.add(jsonArrayRequest);
-
-    }
+//    private void GetData(String url){
+//        com.android.volley.RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+//            @Override
+//            public void onResponse(JSONArray response) {
+//                for (int i = 0; i < response.length(); i++){
+//                    try {
+//                        JSONObject object = response.getJSONObject(i);
+//                        if(object.getString("Model").compareTo(getPhoneName()) != 0){
+//                        appDatabase.userDao().addUser(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender"), R.drawable.icon));
+//                        }
+//                        //arrayUser.add(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender")));
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Toast.makeText(getActivity(), "Lỗi!",Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//        );
+//        requestQueue.add(jsonArrayRequest);
+//
+//    }
 
 }

@@ -27,11 +27,18 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.duy.demotab.Fragment.HinhAnh;
 import com.example.duy.demotab.Fragment.TabAdapter;
 import com.example.duy.demotab.GiaoDienChat.ChatFragment;
 import com.example.duy.demotab.GiaoDienDanhSachThietBiCungMang.ListOnlineFragment;
 import com.example.duy.demotab.R;
+import com.example.duy.demotab.Storage.AppDatabase;
+import com.example.duy.demotab.Storage.User;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.io.IOException;
@@ -45,6 +52,10 @@ import java.util.ArrayList;
 import java.util.List;
 import android.os.Handler;
 import android.net.wifi.p2p.WifiP2pConfig;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class DashBoard extends AppCompatActivity implements SendData{
 
@@ -60,19 +71,67 @@ public class DashBoard extends AppCompatActivity implements SendData{
     private FragmentTransaction transaction;
     private Fragment fragment=null;
 
+    private String urlGetdata = "https://andrp2p.000webhostapp.com/plattform/getdata.php";
+    private AppDatabase appDatabase;
+
+    public String getPhoneName() {
+        String deviceName = WiFiDirectBroadcastReceiver.getWifiDeviceName();
+        System.out.println("device "+ deviceName);
+        return deviceName;
+    }
+
+    private void GetData(String url){
+        com.android.volley.RequestQueue requestQueue = Volley.newRequestQueue(this.getApplicationContext());
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                for (int i = 0; i < response.length(); i++){
+                    try {
+                        JSONObject object = response.getJSONObject(i);
+                        if(object.getString("Model").compareTo(getPhoneName()) != 0){
+                            appDatabase.userDao().addUser(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender"), R.drawable.icon));
+                        }
+                        //arrayUser.add(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender")));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(DashBoard.this, "Lỗi!",Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+        requestQueue.add(jsonArrayRequest);
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dadboard);
 
+        appDatabase = AppDatabase.getDatabase(getApplicationContext());
+//        if (appDatabase.userDao().getAllUser().get(0).id!="") {
+//            System.out.println("init user [0] " + appDatabase.userDao().getAllUser().get(0).id);
+//        }
+        //clear old data
+        appDatabase.userDao().ClearUser();
+//        System.out.println("user [0] after clear data "+appDatabase.userDao().getAllUser().get(0).id);
+        GetData(urlGetdata);
+//        System.out.println("user [0] after get from server"+appDatabase.userDao().getAllUser().get(0).id);
+
         //https://www.youtube.com/watch?v=FZfjWXYm80k
-        toolbar=(Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Hello");
-        toolbar.setSubtitle("hello");
+//        toolbar=(Toolbar)findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setTitle("Hello");
+//        toolbar.setSubtitle("hello");
         //toolbar.setNavigationIcon(R.drawable.arrow);
 //        toolbar.setLogo(R.drawable.arrow);
-        searchView=(MaterialSearchView)findViewById(R.id.search_view);
+//        searchView=(MaterialSearchView)findViewById(R.id.search_view);
 
         grTab=(GridView)findViewById(R.id.grTab);
         arrayHinh= new ArrayList<>();
@@ -96,7 +155,8 @@ public class DashBoard extends AppCompatActivity implements SendData{
                 if(checkInfoRegister==true){
                     transaction=getFragmentManager().beginTransaction();
                     //check tab name, i: tab position
-                    if(deviceNameArray==null&&i==0){
+                    System.out.println("user [0] "+deviceNameArray==null&&i==0 && appDatabase.userDao().getAllUser().size()!=0);
+                    if((deviceNameArray==null || appDatabase.userDao().getAllUser().size()==0)&& i==0){
                         i=-1;
                         Toast.makeText(DashBoard.this, "Hiện tại chưa có thiết bị nào gần bạn!", Toast.LENGTH_SHORT).show();
                     }

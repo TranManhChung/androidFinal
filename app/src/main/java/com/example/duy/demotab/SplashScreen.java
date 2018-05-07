@@ -9,6 +9,7 @@ import android.net.wifi.WifiManager;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.duy.demotab.Other.DashBoard;
 
@@ -36,6 +37,7 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
+
 
         //Button btnDangKy=(Button)findViewById(R.id.btnDangKy);
 
@@ -74,6 +76,8 @@ public class SplashScreen extends AppCompatActivity {
 //        });
 
     }
+
+
 
     @Override
     protected void onPause() {
