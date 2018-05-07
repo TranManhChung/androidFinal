@@ -15,9 +15,9 @@ public class User {
     public String name;
     public int age;
     public int sex;
-    public int avatar;
+    public String avatar;
 
-    public User(String id, String name, int age, int sex, int avatar) {
+    public User(String id, String name, int age, int sex, String avatar) {
         this.id = id;
         this.name = name;
         this.age = age;

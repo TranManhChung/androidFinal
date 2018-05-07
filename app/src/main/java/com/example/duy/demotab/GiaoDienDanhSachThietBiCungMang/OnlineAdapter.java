@@ -1,6 +1,8 @@
 package com.example.duy.demotab.GiaoDienDanhSachThietBiCungMang;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,9 @@ import android.widget.TextView;
 import com.example.duy.demotab.R;
 import com.example.duy.demotab.Storage.User;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -77,7 +82,20 @@ public class OnlineAdapter extends BaseAdapter {
             holder.txtSexOnline.setText( data.get(i).sex == 1 ? "Nữ" : "Nam");
             holder.txtAgeOnline.setText(Integer.toString(data.get(i).age));
             holder.txtName.setText(data.get(i).name);
-            holder.imgOnline.setImageResource(R.drawable.icon);
+            URL url = null;
+            Bitmap bmp = null;
+            try {
+                url = new URL(data.get(i).avatar);
+                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (bmp!=null) {
+                holder.imgOnline.setImageBitmap(bmp);
+            }
+            else holder.imgOnline.setImageResource(R.drawable.icon);
         }
         else {
             //default value;

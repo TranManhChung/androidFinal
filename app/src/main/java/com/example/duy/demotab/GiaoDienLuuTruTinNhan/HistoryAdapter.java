@@ -81,7 +81,7 @@ public class HistoryAdapter extends BaseAdapter {
         //set value from data
 
         String userId = data.get(i).userId;
-        holder.imgAvatar.setImageResource(users.get(i).avatar);
+//        holder.imgAvatar.setImageResource(users.get(i).avatar);
         holder.txtNameUser.setText(users.get(i).name);
         holder.txtTime.setText(data.get(i).getTime());
         //lastest message

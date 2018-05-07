@@ -9,12 +9,20 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    packagingOptions{
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+
     }
 }
 
@@ -45,4 +53,30 @@ dependencies {
     compile 'com.android.volley:volley:1.1.0'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
+
+
+    //firebase
+    compile 'com.google.firebase:firebase-storage:15.0.2'
+    compile 'com.google.firebase:firebase-auth:15.1.0'
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
 }
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '26.1.0'
+            }
+        } else if (requested.group == "com.google.android.gms") {
+            details.useVersion '11.8.0'
+        } else if (requested.group == "com.google.firebase") {
+            details.useVersion '11.8.0'
+        }
+    }
+}
+
+apply plugin: 'com.google.gms.google-services'

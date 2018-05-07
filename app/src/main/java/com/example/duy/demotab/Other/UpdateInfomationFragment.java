@@ -3,6 +3,7 @@ package com.example.duy.demotab.Other;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -39,6 +41,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.duy.demotab.R;
+import com.example.duy.demotab.Storage.AppDatabase;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,6 +69,17 @@ public class UpdateInfomationFragment extends Fragment {
     int REQUEST_CODE_CAMERA =123;
     private static final int GALLERY_REQUEST=1;
 
+    //firebase
+    FirebaseStorage storage;
+    StorageReference storageReference;
+
+    private AppDatabase appDatabase;
+
+    //avatar
+    private Uri filePath;
+    private String imgUrl="";
+
+
     private SendData sendData;
 
     public String getPhoneName() {
@@ -68,17 +88,66 @@ public class UpdateInfomationFragment extends Fragment {
         return deviceName;
     }
 
+    private void uploadImage() {
+
+        if(filePath != null)
+        {
+            final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+            StorageReference ref = storageReference.child("images/"+ getPhoneName());
+            ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+//                            System.out.println("url: "+ taskSnapshot.getDownloadUrl());
+                            @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            imgUrl = downloadUrl.toString();
+                            Toast.makeText(getActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getActivity(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         sendData= (SendData) getActivity();
 
+        appDatabase = AppDatabase.getDatabase(getActivity());
+        //firebase
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
         view=inflater.inflate(R.layout.activity_change_infomation,container,false);
         Toast.makeText(getActivity(), this.getPhoneName(), Toast.LENGTH_SHORT).show();
 
         AnhXa();
+        if (appDatabase.userDao().getUser(getPhoneName())!=null) {
+            System.out.println("avatar " + appDatabase.userDao().getUser(getPhoneName()).avatar);
+            if (!appDatabase.userDao().getUser(getPhoneName()).avatar.equals("")) {
+                imgAvatar.setImageURI(Uri.parse(appDatabase.userDao().getUser(getPhoneName()).avatar));
+            }
+        }
 
-        btnUpdate.setEnabled(false);
+//        btnUpdate.setEnabled(false);
 
         if (checkWifiOnAndConnected()) {
             btnUpdate.setEnabled(true);
@@ -162,10 +231,11 @@ public class UpdateInfomationFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
+         if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
+            filePath = data.getData();
            Uri imageUri = data.getData(); //Lấy ra uri của image
-            imgAvatar.setImageURI(imageUri); //Set image lựa chọn theo uri\
-            //new
+            imgAvatar.setImageURI(imageUri); //Set image lựa chọn theo uri
+            uploadImage();
 
         }
         if(requestCode==REQUEST_CODE_CAMERA &&resultCode==RESULT_OK&&data!=null){
@@ -209,7 +279,7 @@ public class UpdateInfomationFragment extends Fragment {
                     }
 
                     sendData.CheckInfomation(true);
-                    btnUpdate.setEnabled(false);
+//                    btnUpdate.setEnabled(false);
                 }
                 else {
                     Toast.makeText(getActivity(), "Bạn điền thông tin chưa đầy đủ", Toast.LENGTH_SHORT).show();
@@ -247,7 +317,9 @@ public class UpdateInfomationFragment extends Fragment {
                     params.put("genderUser", "0");
                 }
                 params.put("modelUser", getPhoneName().toString().trim());
-                //params.put("avaUser", ***);
+                if (imgUrl!="") {
+                    params.put("avaUser", imgUrl.trim());
+                } else params.put("avaUser", "");
                 return params;
             }
         };
@@ -283,7 +355,9 @@ public class UpdateInfomationFragment extends Fragment {
                     params.put("genderUser", "0");
                 }
                 params.put("modelUser", getPhoneName().trim());
-                //params.put("avaUser", ***);
+                if (imgUrl!="") {
+                    params.put("avaUser", imgUrl.trim());
+                }
                 return params;
             }
         };

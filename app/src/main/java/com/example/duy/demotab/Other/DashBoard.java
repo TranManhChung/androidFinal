@@ -7,6 +7,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
@@ -44,10 +48,12 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import android.os.Handler;
@@ -89,8 +95,8 @@ public class DashBoard extends AppCompatActivity implements SendData{
                     try {
                         JSONObject object = response.getJSONObject(i);
                         if(object.getString("Model").compareTo(getPhoneName()) != 0){
-                            appDatabase.userDao().addUser(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender"), R.drawable.icon));
-                            //appDatabase.userDao().addUser(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender"), object.getInt("GenderAva")));
+//                            appDatabase.userDao().addUser(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender"), R.drawable.icon))
+                            appDatabase.userDao().addUser(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender"), object.getString("Ava")));
                         }
                         //arrayUser.add(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender")));
                     } catch (JSONException e) {
@@ -102,7 +108,7 @@ public class DashBoard extends AppCompatActivity implements SendData{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(DashBoard.this, "Lỗi!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DashBoard.this, "Lỗi load data !",Toast.LENGTH_SHORT).show();
                     }
                 }
         );

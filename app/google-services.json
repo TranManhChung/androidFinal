@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "466036618180",
+    "firebase_url": "https://chatp2p-7d1b0.firebaseio.com",
+    "project_id": "chatp2p-7d1b0",
+    "storage_bucket": "chatp2p-7d1b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:466036618180:android:d06b38d0aa2a2804",
+        "android_client_info": {
+          "package_name": "com.example.duy.demotab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "466036618180-hegeh4f24vadt462qcdfkt3sqk3t0ftk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEhNQdYtVhMm7NQt_KIFkCmu0mRkjn7Uo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
