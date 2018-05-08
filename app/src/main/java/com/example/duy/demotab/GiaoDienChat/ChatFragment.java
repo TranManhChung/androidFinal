@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +26,8 @@ import com.example.duy.demotab.Storage.AppDatabase;
 import com.example.duy.demotab.Storage.ChatHistory;
 import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -58,32 +61,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener,SendD
 //        id = "saya";
 
         AnhXa();
-        try {
-            Bitmap ownerBitmaptemp = Glide.
-                    with(getActivity()).
-                    asBitmap().
-                    load(ownerAvatarUrl).
-                    into(-1, -1). // Width and height
-                    get();
-            ownerBitmap = ownerBitmaptemp;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        try {
-            Bitmap responBitmaptemp = Glide.
-                        with(getActivity()).
-                        asBitmap().
-                        load(respondAvatarUrl).
-                        into(-1, -1). // Width and height
-                        get();
-            responBitmap = responBitmaptemp;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
         Handle();
 
         return view;
@@ -134,7 +111,27 @@ public class ChatFragment extends Fragment implements View.OnClickListener,SendD
 //
 //            }
 //        });
-        adapter=new ChatAdapter(R.layout.layout_chat,getActivity(),data, ownerBitmap, responBitmap);
+
+//        Thread thread = new Thread(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                try  {
+//                    //Your code goes here
+//                    URL url = new URL(ownerAvatarUrl);
+//                    ownerBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+//                    URL url2 = new URL(respondAvatarUrl);
+//                    responBitmap = BitmapFactory.decodeStream(url2.openConnection().getInputStream());
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//
+//        thread.start();
+//        adapter=new ChatAdapter(R.layout.layout_chat,getActivity(),data, ownerBitmap, responBitmap);
+        adapter=new ChatAdapter(R.layout.layout_chat,getActivity(),data, ownerAvatarUrl, respondAvatarUrl);
+
         listView.setAdapter(adapter);
 
         button.setOnClickListener(this);

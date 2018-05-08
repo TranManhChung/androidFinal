@@ -241,7 +241,7 @@ public class UpdateInfomationFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
          if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
             filePath = data.getData();
-           Uri imageUri = data.getData(); //Lấy ra uri của image
+            Uri imageUri = data.getData(); //Lấy ra uri của image
             imgAvatar.setImageURI(imageUri); //Set image lựa chọn theo uri
             uploadImage();
 
@@ -330,7 +330,7 @@ public class UpdateInfomationFragment extends Fragment {
                     params.put("genderUser", "0");
                 }
                 params.put("modelUser", getPhoneName().toString().trim());
-                if (imgUrl!="") {
+                if (!imgUrl.equals("")) {
                     params.put("avaUser", imgUrl.trim());
                 } else params.put("avaUser", "");
                 return params;
@@ -368,7 +368,7 @@ public class UpdateInfomationFragment extends Fragment {
                     params.put("genderUser", "0");
                 }
                 params.put("modelUser", getPhoneName().trim());
-                if (imgUrl!="") {
+                if (!imgUrl.equals("")) {
                     params.put("avaUser", imgUrl.trim());
                 }
                 return params;

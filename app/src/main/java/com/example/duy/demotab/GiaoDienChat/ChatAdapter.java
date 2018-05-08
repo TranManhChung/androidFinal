@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.duy.demotab.R;
 
 import java.util.List;
@@ -23,10 +24,13 @@ public class ChatAdapter extends BaseAdapter {
     private int layout;
     private Context context;
     private List<Message> data;
-    private Bitmap ownerAvatar;
-    private Bitmap responAvatar;
+//    private Bitmap ownerAvatar;
+//    private Bitmap responAvatar;
 
-    public ChatAdapter(int layout, Context context, List<Message> data, Bitmap ownerAvatar, Bitmap responserAvatar) {
+    private String ownerAvatar="";
+    private String responAvatar="";
+
+    public ChatAdapter(int layout, Context context, List<Message> data, String ownerAvatar, String responserAvatar) {
        this.layout=layout;
        this.context = context;
        this.data = data;
@@ -87,7 +91,13 @@ public class ChatAdapter extends BaseAdapter {
 
             holder.leftTextView.setText(data.get(i).getMessage());
 //            holder.leftImageView.setImageResource(data.get(i).getAvatar());
-            holder.leftImageView.setImageBitmap(ownerAvatar);
+            if (!ownerAvatar.equals("")) {
+                Glide
+                        .with(context)
+                        .load(ownerAvatar)
+                        .into(holder.leftImageView);
+            }
+            else holder.leftImageView.setImageResource(R.drawable.icon);
         }
         else {
             holder.rightImageView.setVisibility(View.VISIBLE);
@@ -95,7 +105,14 @@ public class ChatAdapter extends BaseAdapter {
 
             holder.rightTextView.setText(data.get(i).getMessage());
 //            holder.rightImageView.setImageResource(data.get(i).getAvatar());
-            holder.leftImageView.setImageBitmap(responAvatar);
+//            holder.leftImageView.setImageBitmap(responAvatar);
+            if (!responAvatar.equals("")) {
+                Glide
+                        .with(context)
+                        .load(responAvatar)
+                        .into(holder.rightImageView);
+            }
+            else holder.rightImageView.setImageResource(R.drawable.icon);
         }
 
         return view;
