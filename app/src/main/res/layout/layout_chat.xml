@@ -1,86 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:gravity="left"
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<ImageView-->
-        <!--android:id="@+id/imgAvatarLeft"-->
-        <!--android:layout_width="40dp"-->
-        <!--android:layout_height="40dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintHorizontal_bias="0.021"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--tools:layout_editor_absoluteY="0dp"-->
-        <!--tools:ignore="MissingConstraints" />-->
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgAvatarLeft"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.021"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints"
-        android:layout_centerInParent="true"
-        app:civ_border_width="2dp"
-        />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgAvatarLeft"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_launcher_background"/>
 
-    <TextView
-        android:id="@+id/txtMessageLeft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/custom_button"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.028"
-        app:layout_constraintStart_toEndOf="@+id/imgAvatarLeft"
-        tools:layout_editor_absoluteY="0dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        tools:ignore="MissingConstraints"
-        android:backgroundTint="#e0d1e4"
-        />
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="108dp"
+            tools:layout_editor_absoluteY="16dp">
 
-    <TextView
-        android:id="@+id/txtMessageRight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/custom_button"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toStartOf="@+id/imgAvatarRight"
-        app:layout_constraintHorizontal_bias="0.973"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="0dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        tools:ignore="MissingConstraints"
-        android:backgroundTint="#9de2e0"
-        />
+            <TextView
+                android:text="text1"
+                android:id="@+id/txtMessageLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_button" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-    android:id="@+id/imgAvatarRight"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.975"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints"
-        app:civ_border_width="2dp"
-        />
+            <ImageView
+                android:id="@+id/leftMessImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_launcher_background" />
+        </LinearLayout>
+    </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:gravity="end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:gravity="end"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="text1"
+                android:id="@+id/txtMessageRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_button"
+                />
+            <ImageView
+                android:src="@drawable/ic_launcher_background"
+                android:id="@+id/rightMessImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <de.hdodenhof.circleimageview.CircleImageView
+
+            android:id="@+id/imgAvatarRight"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_launcher_background"
+            />
+
+    </LinearLayout>
+</RelativeLayout>

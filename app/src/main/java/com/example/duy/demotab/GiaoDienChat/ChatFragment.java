@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +29,14 @@ import com.example.duy.demotab.Storage.AppDatabase;
 import com.example.duy.demotab.Storage.ChatHistory;
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by DUY on 5/4/2018.
@@ -40,11 +46,14 @@ public class ChatFragment extends Fragment implements View.OnClickListener,SendD
     private View view;
     private SendData sendData;
     private String id = "";
+    private Button btnAdd;
 
     private String ownerAvatarUrl = "";
     private String respondAvatarUrl = "";
     private Bitmap ownerBitmap = null;
     private Bitmap responBitmap = null;
+    private static final int GALLERY_REQUEST=1;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -83,6 +92,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener,SendD
         listView=(ListView)view.findViewById(R.id.listView);
         editText=(EditText)view.findViewById(R.id.edtMessage);
         button=(Button)view.findViewById(R.id.btnSend);
+        btnAdd=(Button)view.findViewById(R.id.btnAdd);
 
 //        buttonRub=(Button)view.findViewById(R.id.btnSendRub);
 //        editTextRub=(EditText)view.findViewById(R.id.edtMessageRub);
@@ -135,6 +145,8 @@ public class ChatFragment extends Fragment implements View.OnClickListener,SendD
         listView.setAdapter(adapter);
 
         button.setOnClickListener(this);
+
+        btnAdd.setOnClickListener(this);
 //        buttonRub.setOnClickListener(this);
     }
 
@@ -173,19 +185,73 @@ public class ChatFragment extends Fragment implements View.OnClickListener,SendD
         appDatabase.chatHistoryDao().insertChatHistory(chatHistory);
     }
 
+    boolean checkMessIsTextOrImage;//true - hinh/false - text
+
     @Override
-    public void onClick(View view) {
-        data.add(new Message(R.drawable.icon, "idCuaToi", "Toi", editText.getText().toString()));
-        this.SaveChatLog();
-        adapter.notifyDataSetChanged();
-        sendData.SendDataTypeString(editText.getText().toString());
+    public void onClick(View view) {//gui tin nhan di
+        switch (view.getId()){
+            case R.id.btnSend:
+                if(checkMessIsTextOrImage==true){//hinh
+                    data.add(new Message(R.drawable.icon, "idCuaToi", "Toi",bitmapMess,true));
+                    //Chuyen hinh tu bitmap sang string
+                    sendData.SendDataTypeString(editText.getText().toString());
+                }
+                else{//text
+                    data.add(new Message(R.drawable.icon, "idCuaToi", "Toi", editText.getText().toString(),false));
+                    this.SaveChatLog();
+                    sendData.SendDataTypeString(editText.getText().toString());
+                }
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.btnAdd:
+                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent,GALLERY_REQUEST);
+                break;
+        }
 
     }
+    String bitmapMess="";
 
     @Override
-    public void SendDataTypeString(String mess) {
-        data.add(new Message(R.drawable.icon,id,"Ai",mess));
-        this.SaveChatLog();
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
+
+            try {
+                Uri imageUri = data.getData(); //Lấy ra uri của image
+                Bitmap bit = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
+                bitmapMess=BitMapToString(bit);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+//        if(requestCode==REQUEST_CODE_CAMERA &&resultCode==RESULT_OK&&data!=null){
+//            Bitmap bitmap= (Bitmap) data.getExtras().get("data");
+//            imgAvatar.setImageBitmap(bitmap);
+//        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
+
+
+    @Override
+    public void SendDataTypeString(String mess) {//nhan tin nhan va show ra
+
+        if(mess.length()>100){//la hinh
+            data.add(new Message(R.drawable.icon,id,"Ai",mess,true));
+        }
+        else {
+            data.add(new Message(R.drawable.icon,id,"Ai",mess,false));
+            this.SaveChatLog();
+        }
         adapter.notifyDataSetChanged();
     }
 

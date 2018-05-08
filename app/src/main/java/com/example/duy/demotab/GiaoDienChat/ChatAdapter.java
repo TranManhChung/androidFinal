@@ -2,6 +2,8 @@ package com.example.duy.demotab.GiaoDienChat;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,8 +58,11 @@ public class ChatAdapter extends BaseAdapter {
     class ViewHolder{
         private ImageView leftImageView;
         private TextView leftTextView;
+        private ImageView leftMessImage;
+
         private ImageView rightImageView;
         private TextView rightTextView;
+        private ImageView rightMessImage;
     }
 
     private ViewHolder holder;
@@ -71,8 +76,12 @@ public class ChatAdapter extends BaseAdapter {
             view=inflater.inflate(layout,null);
             holder.rightImageView=(ImageView)view.findViewById(R.id.imgAvatarRight);
             holder.rightTextView=(TextView)view.findViewById(R.id.txtMessageRight);
+            holder.rightMessImage=(ImageView)view.findViewById(R.id.rightMessImage);
+
             holder.leftImageView=(ImageView)view.findViewById(R.id.imgAvatarLeft);
             holder.leftTextView=(TextView)view.findViewById(R.id.txtMessageLeft);
+            holder.leftMessImage=(ImageView)view.findViewById(R.id.leftMessImage);
+
 
             view.setTag(holder);
         }
@@ -82,15 +91,24 @@ public class ChatAdapter extends BaseAdapter {
 
         holder.rightImageView.setVisibility(View.GONE);
         holder.rightTextView.setVisibility(View.GONE);
+        holder.rightMessImage.setVisibility(View.GONE);
         holder.leftImageView.setVisibility(View.GONE);
         holder.leftTextView.setVisibility(View.GONE);
+        holder.leftMessImage.setVisibility(View.GONE);
 
         if(data.get(i).getName().equals("Toi")!=true){
-            holder.leftImageView.setVisibility(View.VISIBLE);
-            holder.leftTextView.setVisibility(View.VISIBLE);
+            holder.leftImageView.setVisibility(View.VISIBLE);//avatar
 
-            holder.leftTextView.setText(data.get(i).getMessage());
-//            holder.leftImageView.setImageResource(data.get(i).getAvatar());
+            if(data.get(i).getType()==true){//Tin nhan la hinh
+                holder.leftMessImage.setVisibility(View.VISIBLE);
+                //Chuyen mess tu string sang bitmap
+                Bitmap image=StringToBitMap(data.get(i).getMessage());
+                holder.leftMessImage.setImageBitmap(image);
+            }
+            else{//Tinh nhan la text
+                holder.leftTextView.setVisibility(View.VISIBLE);
+                holder.leftTextView.setText(data.get(i).getMessage());
+            }
             if (!ownerAvatar.equals("")) {
                 Glide
                         .with(context)
@@ -100,12 +118,21 @@ public class ChatAdapter extends BaseAdapter {
             else holder.leftImageView.setImageResource(R.drawable.icon);
         }
         else {
-            holder.rightImageView.setVisibility(View.VISIBLE);
-            holder.rightTextView.setVisibility(View.VISIBLE);
+
+            holder.rightImageView.setVisibility(View.VISIBLE);//avatar
+
+            if(data.get(i).getType()==true){//Tin nhan la hinh
+                holder.rightMessImage.setVisibility(View.VISIBLE);
+                //Chuyen mess tu string sang bitmap
+                Bitmap image=StringToBitMap(data.get(i).getMessage());
+                holder.rightMessImage.setImageBitmap(image);
+            }
+            else{//Tinh nhan la text
+                holder.rightTextView.setVisibility(View.VISIBLE);
+                holder.rightTextView.setText(data.get(i).getMessage());
+            }
 
             holder.rightTextView.setText(data.get(i).getMessage());
-//            holder.rightImageView.setImageResource(data.get(i).getAvatar());
-//            holder.leftImageView.setImageBitmap(responAvatar);
             if (!responAvatar.equals("")) {
                 Glide
                         .with(context)
@@ -116,5 +143,16 @@ public class ChatAdapter extends BaseAdapter {
         }
 
         return view;
+    }
+
+    public Bitmap StringToBitMap(String encodedString){
+        try{
+            byte [] encodeByte= Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        }catch(Exception e){
+            e.getMessage();
+            return null;
+        }
     }
 }
