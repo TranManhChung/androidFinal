@@ -1,6 +1,7 @@
 package com.example.duy.demotab.GiaoDienChat;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,15 @@ public class ChatAdapter extends BaseAdapter {
     private int layout;
     private Context context;
     private List<Message> data;
+    private Bitmap ownerAvatar;
+    private Bitmap responAvatar;
 
-    public ChatAdapter(int layout, Context context, List<Message> data) {
+    public ChatAdapter(int layout, Context context, List<Message> data, Bitmap ownerAvatar, Bitmap responserAvatar) {
        this.layout=layout;
        this.context = context;
        this.data = data;
+       this.ownerAvatar = ownerAvatar;
+       this.responAvatar = responserAvatar;
     }
 
     @Override
@@ -81,14 +86,16 @@ public class ChatAdapter extends BaseAdapter {
             holder.leftTextView.setVisibility(View.VISIBLE);
 
             holder.leftTextView.setText(data.get(i).getMessage());
-            holder.leftImageView.setImageResource(data.get(i).getAvatar());
+//            holder.leftImageView.setImageResource(data.get(i).getAvatar());
+            holder.leftImageView.setImageBitmap(ownerAvatar);
         }
         else {
             holder.rightImageView.setVisibility(View.VISIBLE);
             holder.rightTextView.setVisibility(View.VISIBLE);
 
             holder.rightTextView.setText(data.get(i).getMessage());
-            holder.rightImageView.setImageResource(data.get(i).getAvatar());
+//            holder.rightImageView.setImageResource(data.get(i).getAvatar());
+            holder.leftImageView.setImageBitmap(responAvatar);
         }
 
         return view;

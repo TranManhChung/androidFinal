@@ -96,6 +96,7 @@ public class DashBoard extends AppCompatActivity implements SendData{
                         JSONObject object = response.getJSONObject(i);
                         if(object.getString("Model").compareTo(getPhoneName()) != 0){
 //                            appDatabase.userDao().addUser(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender"), R.drawable.icon))
+                            System.out.println("user avatar "+ object.getString("Ava"));
                             appDatabase.userDao().addUser(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender"), object.getString("Ava")));
                         }
                         //arrayUser.add(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender")));

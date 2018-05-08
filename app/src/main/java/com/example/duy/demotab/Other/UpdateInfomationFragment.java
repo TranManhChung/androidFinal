@@ -40,6 +40,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.duy.demotab.R;
 import com.example.duy.demotab.Storage.AppDatabase;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -105,7 +106,7 @@ public class UpdateInfomationFragment extends Fragment {
 //                            System.out.println("url: "+ taskSnapshot.getDownloadUrl());
                             @SuppressWarnings("VisibleForTests") Uri downloadUrl = taskSnapshot.getDownloadUrl();
                             imgUrl = downloadUrl.toString();
-                            Toast.makeText(getActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -140,12 +141,12 @@ public class UpdateInfomationFragment extends Fragment {
         Toast.makeText(getActivity(), this.getPhoneName(), Toast.LENGTH_SHORT).show();
 
         AnhXa();
-        if (appDatabase.userDao().getUser(getPhoneName())!=null) {
-            System.out.println("avatar " + appDatabase.userDao().getUser(getPhoneName()).avatar);
-            if (!appDatabase.userDao().getUser(getPhoneName()).avatar.equals("")) {
-                imgAvatar.setImageURI(Uri.parse(appDatabase.userDao().getUser(getPhoneName()).avatar));
-            }
-        }
+//        if (appDatabase.userDao().getUser(getPhoneName())!=null) {
+//            System.out.println("avatar " + appDatabase.userDao().getUser(getPhoneName()).avatar);
+//            if (!appDatabase.userDao().getUser(getPhoneName()).avatar.equals("")) {
+//                imgAvatar.setImageURI(Uri.parse(appDatabase.userDao().getUser(getPhoneName()).avatar));
+//            }
+//        }
 
 //        btnUpdate.setEnabled(false);
 
@@ -195,6 +196,13 @@ public class UpdateInfomationFragment extends Fragment {
             }
             else {
                 rdFemale.setChecked(true);
+            }
+            String avatarOwner = myFile.getString("avatarUrl", "");
+            if (!avatarOwner.equals("")) {
+                Glide
+                        .with(getActivity().getApplicationContext())
+                        .load(avatarOwner)
+                        .into(imgAvatar);
             }
             return true;
         }
@@ -271,12 +279,17 @@ public class UpdateInfomationFragment extends Fragment {
                         temp="Nữ";
                     }
                     myEditor.putString("Sex", temp);
+                    if (!imgUrl.equals("")) {
+                        myEditor.putString("avatarUrl", imgUrl);
+                    }
                     myEditor.commit();
                     if (!flag) {
                         AddUser(urlInsert);
                     } else {
                         UpdateInfo(urlUpdate);
                     }
+
+
 
                     sendData.CheckInfomation(true);
 //                    btnUpdate.setEnabled(false);

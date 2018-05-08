@@ -10,7 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.duy.demotab.R;
 import com.example.duy.demotab.Storage.User;
 
@@ -82,18 +84,29 @@ public class OnlineAdapter extends BaseAdapter {
             holder.txtSexOnline.setText( data.get(i).sex == 1 ? "Nữ" : "Nam");
             holder.txtAgeOnline.setText(Integer.toString(data.get(i).age));
             holder.txtName.setText(data.get(i).name);
-            URL url = null;
-            Bitmap bmp = null;
-            try {
-                url = new URL(data.get(i).avatar);
-                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (bmp!=null) {
-                holder.imgOnline.setImageBitmap(bmp);
+//            URL url = null;
+//            Bitmap bmp = null;
+//            try {
+//                System.out.println("avatar: "+ data.get(i).avatar);
+//                url = new URL(data.get(i).avatar);
+//                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            if (bmp!=null) {
+//                holder.imgOnline.setImageResource(R.drawable.icon);
+//                Toast.makeText(context, "url: "+ data.get(i).avatar, Toast.LENGTH_SHORT).show();
+////                holder.imgOnline.setImageBitmap(bmp);
+//            }
+//            else holder.imgOnline.setImageResource(R.drawable.icon);
+
+            if (!data.get(i).avatar.equals("")) {
+                Glide
+                        .with(context)
+                        .load(data.get(i).avatar)
+                        .into(holder.imgOnline);
             }
             else holder.imgOnline.setImageResource(R.drawable.icon);
         }
