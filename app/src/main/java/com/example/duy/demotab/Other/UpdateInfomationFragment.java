@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.media.Image;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pDevice;
@@ -15,6 +16,7 @@ import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,16 +34,9 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.duy.demotab.R;
-import com.example.duy.demotab.Storage.AppDatabase;
-import com.example.duy.demotab.Storage.User;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +45,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class UpdateInfomationFragment extends Fragment {
 
-    private ImageView imgAvatar;
+    private ImageView imgAvatar, imgCamera, imgGallery;
     private EditText edtName;
     private EditText edtAge;
     private RadioButton rdMale;
@@ -61,11 +56,9 @@ public class UpdateInfomationFragment extends Fragment {
     private String urlUpdate = "https://andrp2p.000webhostapp.com/plattform/update.php";
     private String urlInsert = "https://andrp2p.000webhostapp.com/plattform/insert.php";
     int REQUEST_CODE_CAMERA =123;
+    private static final int GALLERY_REQUEST=1;
 
     private SendData sendData;
-
-    private String urlGetdata = "https://andrp2p.000webhostapp.com/plattform/getdata.php";
-    private AppDatabase appDatabase;
 
     public String getPhoneName() {
         String deviceName = WiFiDirectBroadcastReceiver.getWifiDeviceName();
@@ -76,10 +69,6 @@ public class UpdateInfomationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-//        appDatabase = AppDatabase.getDatabase(getActivity());
-        //clear old data
-//        appDatabase.userDao().ClearUser();
-//        GetData(urlGetdata);
         sendData= (SendData) getActivity();
 
         view=inflater.inflate(R.layout.activity_change_infomation,container,false);
@@ -95,13 +84,34 @@ public class UpdateInfomationFragment extends Fragment {
         flag = GetAvailableInfomationAndShow();
 
         //thay đổi avata
-        imgAvatar.setOnClickListener(new View.OnClickListener() {
+//        imgAvatar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(intent,REQUEST_CODE_CAMERA );
+//            }
+//        });
+
+        imgCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent,REQUEST_CODE_CAMERA );
             }
         });
+
+
+        imgGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent,GALLERY_REQUEST);
+            }
+        });
+
+
+
 
         Handle();
         return view;
@@ -127,6 +137,15 @@ public class UpdateInfomationFragment extends Fragment {
 
     }
 
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if(requestCode==REQUEST_CODE_CAMERA &&resultCode==RESULT_OK&&data!=null){
+//            Bitmap bitmap= (Bitmap) data.getExtras().get("data");
+//            imgAvatar.setImageBitmap(bitmap);
+//        }
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
+
     private boolean checkWifiOnAndConnected() {
         WifiManager wifiMgr = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
@@ -146,6 +165,11 @@ public class UpdateInfomationFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
+           Uri imageUri = data.getData(); //Lấy ra uri của image
+            imgAvatar.setImageURI(imageUri); //Set image lựa chọn theo uri
+        }
         if(requestCode==REQUEST_CODE_CAMERA &&resultCode==RESULT_OK&&data!=null){
             Bitmap bitmap= (Bitmap) data.getExtras().get("data");
             imgAvatar.setImageBitmap(bitmap);
@@ -269,39 +293,12 @@ public class UpdateInfomationFragment extends Fragment {
 
     void AnhXa(){
         imgAvatar=(ImageView)view.findViewById(R.id.imgAvatarInfomation);
+        imgCamera=(ImageView)view.findViewById(R.id.imgCamera);
+        imgGallery=(ImageView)view.findViewById(R.id.imgGallery);
         edtName=(EditText)view.findViewById(R.id.edtNameInfomation);
         edtAge=(EditText)view.findViewById(R.id.edtAgeInfomation);
         rdMale=(RadioButton)view.findViewById(R.id.rdMaleInfomation);
         rdFemale=(RadioButton)view.findViewById(R.id.rdFemaleInfomation);
         btnUpdate=(Button)view.findViewById(R.id.btnUpdateInfomation);
     }
-
-//    private void GetData(String url){
-//        com.android.volley.RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-//            @Override
-//            public void onResponse(JSONArray response) {
-//                for (int i = 0; i < response.length(); i++){
-//                    try {
-//                        JSONObject object = response.getJSONObject(i);
-//                        if(object.getString("Model").compareTo(getPhoneName()) != 0){
-//                        appDatabase.userDao().addUser(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender"), R.drawable.icon));
-//                        }
-//                        //arrayUser.add(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender")));
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Toast.makeText(getActivity(), "Lỗi!",Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//        );
-//        requestQueue.add(jsonArrayRequest);
-//
-//    }
 }

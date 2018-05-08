@@ -7,14 +7,32 @@
     android:windowSoftInputMode="adjustPan|stateHidden"
     tools:context="com.example.duy.demotab.Other.MainActivity">
 
-    <ImageView
+
+    <!--<ImageView-->
+        <!--android:id="@+id/imgAvatarInfomation"-->
+        <!--android:layout_width="226dp"-->
+        <!--android:layout_height="205dp"-->
+        <!--android:layout_marginBottom="212dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:background="@drawable/icon"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--tools:ignore="MissingConstraints" />-->
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgAvatarInfomation"
         android:layout_width="226dp"
         android:layout_height="205dp"
+        android:layout_centerInParent="true"
         android:layout_marginBottom="212dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:background="@drawable/icon"
+        app:civ_border_color="@color/colorPrimaryDark"
+        android:src="@drawable/icon"
+        app:civ_border_width="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +49,8 @@
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgAvatarInfomation"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:layout_marginLeft="12dp" />
 
     <EditText
         android:id="@+id/edtNameInfomation"
@@ -39,7 +58,6 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-
         android:layout_marginTop="8dp"
         android:background="@drawable/custom_button"
         android:padding="10dp"
@@ -59,7 +77,8 @@
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:layout_marginLeft="16dp" />
 
     <EditText
         android:id="@+id/edtAgeInfomation"
@@ -71,7 +90,8 @@
         android:padding="10dp"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/edtNameInfomation"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:layout_marginLeft="4dp" />
 
     <Button
         android:id="@+id/btnUpdateInfomation"
@@ -119,5 +139,27 @@
             android:layout_weight="1"
             android:text="Nữ" />
     </RadioGroup>
+
+    <ImageView
+        android:id="@+id/imgCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/imgGallery"
+        app:layout_constraintStart_toEndOf="@+id/imgAvatarInfomation"
+        app:srcCompat="@drawable/camera"
+        android:layout_marginLeft="8dp" />
+
+    <ImageView
+        android:id="@+id/imgGallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/edtNameInfomation"
+        app:layout_constraintStart_toEndOf="@+id/imgAvatarInfomation"
+        app:srcCompat="@drawable/gallery"
+        android:layout_marginLeft="8dp" />
 
 </android.support.constraint.ConstraintLayout>
