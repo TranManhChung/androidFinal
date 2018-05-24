@@ -1,5 +1,6 @@
 package com.example.duy.demotab.GiaoDienLuuTruTinNhan;
 
+import android.app.AlertDialog;
 import android.app.ListFragment;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -53,8 +54,13 @@ public class SaveMessageFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        sendData.SendDataTypeInt(position);
-
-
+//        if (users.get(position).isOnline == 1) {
+            sendData.SendDataTypeInt(position);
+            sendData.ChooseUserId(users.get(position).id);
+//        }
+//        else {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//            builder.setMessage("Cannot connect to an ")
+//        }
     }
 }

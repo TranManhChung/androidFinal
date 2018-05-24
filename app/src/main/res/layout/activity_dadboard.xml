@@ -27,15 +27,15 @@
         <!--android:textColorHint="#FFFFFF"/>-->
     <FrameLayout
         android:id="@+id/frLayout"
-        android:layout_weight="9"
+        android:layout_weight="9.4"
         android:layout_width="match_parent"
         android:layout_height="0dp"/>
     <GridView
         android:background="#e9e4e4"
         android:horizontalSpacing="2dp"
-        android:numColumns="2"
+        android:numColumns="3"
         android:id="@+id/grTab"
-        android:layout_weight="1"
+        android:layout_weight="0.6"
         android:layout_width="match_parent"
         android:layout_height="0dp"/>
 

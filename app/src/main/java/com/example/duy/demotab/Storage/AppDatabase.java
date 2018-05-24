@@ -8,7 +8,7 @@ import android.content.Context;
 /**
  * Created by mac on 4/25/18.
  */
-@Database(entities = {User.class, ChatHistory.class}, version = 16, exportSchema = false)
+@Database(entities = {User.class, ChatHistory.class}, version = 17, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;
 

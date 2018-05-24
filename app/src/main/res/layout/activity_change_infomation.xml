@@ -4,22 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#5bbbe7"
     android:windowSoftInputMode="adjustPan|stateHidden"
     tools:context="com.example.duy.demotab.Other.MainActivity">
-
-
-    <!--<ImageView-->
-        <!--android:id="@+id/imgAvatarInfomation"-->
-        <!--android:layout_width="226dp"-->
-        <!--android:layout_height="205dp"-->
-        <!--android:layout_marginBottom="212dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:background="@drawable/icon"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--tools:ignore="MissingConstraints" />-->
 
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -27,11 +14,11 @@
         android:layout_width="226dp"
         android:layout_height="205dp"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="212dp"
+        android:layout_marginBottom="320dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        app:civ_border_color="@color/colorPrimaryDark"
         android:src="@drawable/icon"
+        app:civ_border_color="@color/colorPrimaryDark"
         app:civ_border_width="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,15 +29,14 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
         android:text="Tên (*):"
-        android:textColor="#1ca8ff"
+        android:textColor="#efeb12"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgAvatarInfomation"
-        tools:ignore="MissingConstraints"
-        android:layout_marginLeft="12dp" />
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/edtNameInfomation"
@@ -58,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="52dp"
         android:background="@drawable/custom_button"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,14 +57,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="32dp"
         android:text="Tuổi(*):"
-        android:textColor="#1ca8ff"
+        android:textColor="#f7f02c"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:ignore="MissingConstraints"
-        android:layout_marginLeft="16dp" />
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/edtAgeInfomation"
@@ -144,22 +129,21 @@
         android:id="@+id/imgCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toTopOf="@+id/imgGallery"
         app:layout_constraintStart_toEndOf="@+id/imgAvatarInfomation"
-        app:srcCompat="@drawable/camera"
-        android:layout_marginLeft="8dp" />
+        app:srcCompat="@drawable/camera" />
 
     <ImageView
         android:id="@+id/imgGallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginBottom="56dp"
         app:layout_constraintBottom_toTopOf="@+id/edtNameInfomation"
         app:layout_constraintStart_toEndOf="@+id/imgAvatarInfomation"
-        app:srcCompat="@drawable/gallery"
-        android:layout_marginLeft="8dp" />
+        app:srcCompat="@drawable/gallery" />
+
+
+
 
 </android.support.constraint.ConstraintLayout>

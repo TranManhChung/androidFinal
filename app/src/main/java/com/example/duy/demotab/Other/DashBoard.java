@@ -40,6 +40,7 @@ import com.example.duy.demotab.Fragment.HinhAnh;
 import com.example.duy.demotab.Fragment.TabAdapter;
 import com.example.duy.demotab.GiaoDienChat.ChatFragment;
 import com.example.duy.demotab.GiaoDienDanhSachThietBiCungMang.ListOnlineFragment;
+import com.example.duy.demotab.GiaoDienLuuTruTinNhan.SaveMessageFragment;
 import com.example.duy.demotab.R;
 import com.example.duy.demotab.Storage.AppDatabase;
 import com.example.duy.demotab.Storage.User;
@@ -97,7 +98,7 @@ public class DashBoard extends AppCompatActivity implements SendData{
                         if(object.getString("Model").compareTo(getPhoneName()) != 0){
 //                            appDatabase.userDao().addUser(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender"), R.drawable.icon))
                             System.out.println("user avatar "+ object.getString("Ava"));
-                            appDatabase.userDao().addUser(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender"), object.getString("Ava")));
+                            appDatabase.userDao().addUser(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender"), object.getString("Ava"), 0));
                         }
                         //arrayUser.add(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender")));
                     } catch (JSONException e) {
@@ -123,28 +124,15 @@ public class DashBoard extends AppCompatActivity implements SendData{
         setContentView(R.layout.activity_dadboard);
 
         appDatabase = AppDatabase.getDatabase(getApplicationContext());
-//        if (appDatabase.userDao().getAllUser().get(0).id!="") {
-//            System.out.println("init user [0] " + appDatabase.userDao().getAllUser().get(0).id);
-//        }
         //clear old data
         appDatabase.userDao().ClearUser();
-//        System.out.println("user [0] after clear data "+appDatabase.userDao().getAllUser().get(0).id);
         GetData(urlGetdata);
-//        System.out.println("user [0] after get from server"+appDatabase.userDao().getAllUser().get(0).id);
 
-        //https://www.youtube.com/watch?v=FZfjWXYm80k
-//        toolbar=(Toolbar)findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle("Hello");
-//        toolbar.setSubtitle("hello");
-        //toolbar.setNavigationIcon(R.drawable.arrow);
-//        toolbar.setLogo(R.drawable.arrow);
-//        searchView=(MaterialSearchView)findViewById(R.id.search_view);
 
         grTab=(GridView)findViewById(R.id.grTab);
         arrayHinh= new ArrayList<>();
 
-//        arrayHinh.add(new HinhAnh("hinh1",R.drawable.message));
+        arrayHinh.add(new HinhAnh("hinh1",R.drawable.message));
         arrayHinh.add(new HinhAnh("hinh3",R.drawable.people));
         arrayHinh.add(new HinhAnh("hinh2",R.drawable.information4));
 
@@ -164,20 +152,36 @@ public class DashBoard extends AppCompatActivity implements SendData{
                     transaction=getFragmentManager().beginTransaction();
                     //check tab name, i: tab position
                     System.out.println("user [0] "+deviceNameArray==null&&i==0 && appDatabase.userDao().getAllUser().size()!=0);
-                    if((deviceNameArray==null || appDatabase.userDao().getAllUser().size()==0)&& i==0){
+                    if((deviceNameArray==null || appDatabase.userDao().getAllUser().size()==0)&& i==1){
                         i=-1;
                         Toast.makeText(DashBoard.this, "Hiện tại chưa có thiết bị nào gần bạn!", Toast.LENGTH_SHORT).show();
                     }
                     if(i>=0){
                         switch (i){
-
                             case 0:
-                                Bundle bundle=new Bundle();
-                                bundle.putStringArray("LIST_ONLINE",deviceNameArray);
-                                fragment=new ListOnlineFragment();
-                                fragment.setArguments(bundle);
+                                fragment = new SaveMessageFragment();
                                 break;
                             case 1:
+                                List<User> users = appDatabase.userDao().getAllUser();
+                                for (String userId : deviceNameArray) {
+                                    System.out.println("userId "+userId);
+                                    for (int j= 0; j< users.size(); j++) {
+                                        System.out.println("userId indentity "+users.get(j).id);
+                                        User tempUser = users.get(j);
+                                        if (tempUser.id.equals(userId)) {
+                                            tempUser.isOnline = 1;
+                                            appDatabase.userDao().updateUser(tempUser);
+                                            User newUser = appDatabase.userDao().getAllUser().get(j);
+                                            System.out.println("user online: " + newUser.isOnline);
+                                        }
+                                    }
+                                }
+//                                Bundle bundle=new Bundle();
+//                                bundle.putStringArray("LIST_ONLINE",deviceNameArray);
+                                fragment=new ListOnlineFragment();
+//                                fragment.setArguments(bundle);
+                                break;
+                            case 2:
                                 fragment=new UpdateInfomationFragment();
                                 break;
                         }
@@ -438,26 +442,7 @@ public class DashBoard extends AppCompatActivity implements SendData{
     @Override
     protected void onPause() {
         super.onPause();
-//        mManager.cancelConnect(mChannel,new WifiP2pManager.ActionListener() {
-//            @Override
-//            public void onSuccess() {
-//                Toast.makeText(DashBoard.this, "Discovery Started", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onFailure(int i) {
-//                Toast.makeText(DashBoard.this, "Discovery Starting Failed", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        this.disconnect();
         unregisterReceiver(mReceiver);
-//        if(wifiManager.isWifiEnabled())
-//        {
-//            wifiManager.setWifiEnabled(false);
-//        }
-//        wifiManager.setWifiEnabled(true);
-
-//        finish();
     }
 
 

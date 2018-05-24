@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgAvatarHistory"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -15,6 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.024"
         app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/icon"
         tools:layout_editor_absoluteY="16dp"
         tools:ignore="MissingConstraints" />
 
@@ -25,6 +26,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="Tran manh chung"
+        android:textSize="18dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.014"
         app:layout_constraintStart_toEndOf="@+id/imgAvatarHistory"
@@ -38,7 +41,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="......"
+        android:text="Hello"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.01"
         app:layout_constraintStart_toEndOf="@+id/imgAvatarHistory"
@@ -51,11 +54,21 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="5 gio"
+        android:text="5h"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.976"
+        app:layout_constraintHorizontal_bias="0.943"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="16dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="16dp" />
+    <ImageView
+        android:id="@+id/imageOnlineHistory"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/online"
+        android:layout_marginRight="24dp" />
 
 </android.support.constraint.ConstraintLayout>

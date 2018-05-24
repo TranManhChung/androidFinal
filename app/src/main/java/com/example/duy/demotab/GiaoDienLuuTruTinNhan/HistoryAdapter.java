@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.duy.demotab.GiaoDienChat.Message;
 import com.example.duy.demotab.R;
 import com.example.duy.demotab.Storage.ChatHistory;
@@ -56,6 +57,7 @@ public class HistoryAdapter extends BaseAdapter {
         private TextView txtTime;
         private TextView txtNameUser;
         private TextView txtBriefMessage;
+        private ImageView imgOnline;
     }
 
     ViewHolder holder;
@@ -72,6 +74,7 @@ public class HistoryAdapter extends BaseAdapter {
             holder.txtBriefMessage=(TextView)view.findViewById(R.id.txtBriefMessage);
             holder.txtTime=(TextView)view.findViewById(R.id.txtTimeHistory);
             holder.txtNameUser=(TextView)view.findViewById(R.id.txtUserNameHistory);
+            holder.imgOnline = (ImageView) view.findViewById(R.id.imageOnlineHistory);
 
             view.setTag(holder);
         }
@@ -80,10 +83,28 @@ public class HistoryAdapter extends BaseAdapter {
         }
         //set value from data
 
-        String userId = data.get(i).userId;
+        String userId = users.get(i).id;
 //        holder.imgAvatar.setImageResource(users.get(i).avatar);
+        if (users!=null) {
+
+            if (!users.get(i).avatar.equals("")) {
+                Glide
+                        .with(context)
+                        .load(users.get(i).avatar)
+                        .into(holder.imgAvatar);
+            }
+            else holder.imgAvatar.setImageResource(R.drawable.icon);
+        }
         holder.txtNameUser.setText(users.get(i).name);
         holder.txtTime.setText(data.get(i).getTime());
+
+        //online flag
+        if (users.get(i).isOnline == 0) {
+            holder.imgOnline.setVisibility(View.GONE);
+        }
+        else {
+            holder.txtTime.setText("");
+        }
         //lastest message
         holder.txtBriefMessage.setText(processFromNoramlMessageToBriefMessage(data.get(i).getLatestMessage()));
         return view;

@@ -55,7 +55,8 @@ import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
-public class UpdateInfomationFragment extends Fragment {
+public class
+UpdateInfomationFragment extends Fragment {
 
     private ImageView imgAvatar, imgCamera, imgGallery;
     private EditText edtName;
@@ -141,14 +142,7 @@ public class UpdateInfomationFragment extends Fragment {
         Toast.makeText(getActivity(), this.getPhoneName(), Toast.LENGTH_SHORT).show();
 
         AnhXa();
-//        if (appDatabase.userDao().getUser(getPhoneName())!=null) {
-//            System.out.println("avatar " + appDatabase.userDao().getUser(getPhoneName()).avatar);
-//            if (!appDatabase.userDao().getUser(getPhoneName()).avatar.equals("")) {
-//                imgAvatar.setImageURI(Uri.parse(appDatabase.userDao().getUser(getPhoneName()).avatar));
-//            }
-//        }
 
-//        btnUpdate.setEnabled(false);
 
         if (checkWifiOnAndConnected()) {
             btnUpdate.setEnabled(true);
@@ -160,8 +154,6 @@ public class UpdateInfomationFragment extends Fragment {
         imgCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                startActivityForResult(intent,REQUEST_CODE_CAMERA );
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA);
             }
         });
@@ -210,14 +202,7 @@ public class UpdateInfomationFragment extends Fragment {
 
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if(requestCode==REQUEST_CODE_CAMERA &&resultCode==RESULT_OK&&data!=null){
-//            Bitmap bitmap= (Bitmap) data.getExtras().get("data");
-//            imgAvatar.setImageBitmap(bitmap);
-//        }
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
+
 
     private boolean checkWifiOnAndConnected() {
         WifiManager wifiMgr = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -324,7 +309,7 @@ public class UpdateInfomationFragment extends Fragment {
                 params.put("nameUser", edtName.getText().toString().trim());
                 params.put("ageUser", edtAge.getText().toString().trim());
                 if (rdMale.isChecked()){
-                    params.put("genderUser", "1");
+                    params.put("genderUser", "1");  //
                 }
                 if (rdFemale.isChecked()){
                     params.put("genderUser", "0");

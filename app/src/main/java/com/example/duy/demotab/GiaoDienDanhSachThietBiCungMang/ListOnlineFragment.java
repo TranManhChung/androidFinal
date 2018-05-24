@@ -47,7 +47,6 @@ public class ListOnlineFragment extends ListFragment {
     private OnlineAdapter adapter;
 //    private ArrayAdapter adapter;
     private SendData sendData;
-//    private String urlGetdata = "https://andrp2p.000webhostapp.com/plattform/getdata.php";
     private User user;
     private AppDatabase appDatabase;
 
@@ -61,8 +60,8 @@ public class ListOnlineFragment extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Bundle bundle=getArguments();
-        String temp[]=bundle.getStringArray("LIST_ONLINE");
+//        Bundle bundle=getArguments();
+//        String temp[]=bundle.getStringArray("LIST_ONLINE");
 
 //        System.ou t.println("temp "+ temp[0]);
 
@@ -74,23 +73,23 @@ public class ListOnlineFragment extends ListFragment {
 
 //        GetData(urlGetdata);
         //GetUser(urlGetdata);
-        List<User> users = appDatabase.userDao().getAllUser();
-        onlineUsers = new ArrayList<>();
+        onlineUsers = appDatabase.userDao().getUserOnline();
+//        onlineUsers = new ArrayList<>();
 
         adapter=new OnlineAdapter(R.layout.layout_list_online,getActivity(),onlineUsers);
         setListAdapter(adapter);
 
-        for (String userId : temp) {
-            System.out.println("userId "+userId);
-            for (int i= 0; i< users.size(); i++) {
-                System.out.println("userId indentity "+users.get(i).id);
-                if (users.get(i).id.equals(userId)) {
-
-                    onlineUsers.add(users.get(i));
-//                    System.out.println("user " + );
-                }
-            }
-        }
+//        for (String userId : temp) {
+//            System.out.println("userId "+userId);
+//            for (int i= 0; i< users.size(); i++) {
+//                System.out.println("userId indentity "+users.get(i).id);
+//                if (users.get(i).id.equals(userId)) {
+//
+//                    onlineUsers.add(users.get(i));
+////                    System.out.println("user " + );
+//                }
+//            }
+//        }
 
         adapter.notifyDataSetChanged();
 
@@ -125,35 +124,5 @@ public class ListOnlineFragment extends ListFragment {
         requestQueue.add(jsonArrayRequest);
 
     }
-
-
-//    private void GetData(String url){
-//        com.android.volley.RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-//            @Override
-//            public void onResponse(JSONArray response) {
-//                for (int i = 0; i < response.length(); i++){
-//                    try {
-//                        JSONObject object = response.getJSONObject(i);
-//                        if(object.getString("Model").compareTo(getPhoneName()) != 0){
-//                        appDatabase.userDao().addUser(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender"), R.drawable.icon));
-//                        }
-//                        //arrayUser.add(new User(object.getString("Model"), object.getString("Name"), object.getInt("Age"), object.getInt("Gender")));
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Toast.makeText(getActivity(), "Lỗi!",Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//        );
-//        requestQueue.add(jsonArrayRequest);
-//
-//    }
 
 }

@@ -3,6 +3,7 @@ package com.example.duy.demotab.GiaoDienDanhSachThietBiCungMang;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,7 @@ public class OnlineAdapter extends BaseAdapter {
         private TextView txtName;
         private TextView txtAgeOnline;
         private TextView txtSexOnline;
+        private ImageView imgOnlineFlag;
     }
     ViewHolder holder;
 
@@ -71,6 +73,7 @@ public class OnlineAdapter extends BaseAdapter {
             holder.txtName=(TextView)view.findViewById(R.id.txtNameOnline);
             holder.txtAgeOnline=(TextView)view.findViewById(R.id.txtAgeOnline);
             holder.txtSexOnline=(TextView)view.findViewById(R.id.txtSexOnline);
+            holder.imgOnlineFlag=view.findViewById(R.id.imageOnline);
 
             view.setTag(holder);
         }
@@ -81,26 +84,10 @@ public class OnlineAdapter extends BaseAdapter {
         //set value from data
 //        System.out.println("data" + data.get(1).name);
         if (data!=null) {
-            holder.txtSexOnline.setText( data.get(i).sex == 1 ? "Nữ" : "Nam");
+            holder.txtSexOnline.setText( data.get(i).sex == 0 ? "Nữ" : "Nam");
             holder.txtAgeOnline.setText(Integer.toString(data.get(i).age));
             holder.txtName.setText(data.get(i).name);
-//            URL url = null;
-//            Bitmap bmp = null;
-//            try {
-//                System.out.println("avatar: "+ data.get(i).avatar);
-//                url = new URL(data.get(i).avatar);
-//                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            if (bmp!=null) {
-//                holder.imgOnline.setImageResource(R.drawable.icon);
-//                Toast.makeText(context, "url: "+ data.get(i).avatar, Toast.LENGTH_SHORT).show();
-////                holder.imgOnline.setImageBitmap(bmp);
-//            }
-//            else holder.imgOnline.setImageResource(R.drawable.icon);
+            if (data.get(i).isOnline == 0) holder.imgOnlineFlag.setVisibility(View.GONE);
 
             if (!data.get(i).avatar.equals("")) {
                 Glide

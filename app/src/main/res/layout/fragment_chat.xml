@@ -1,46 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:weightSum="10"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/txtNamePeople"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#94eae3"
+        android:text=""
+        android:textColor="#f00"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ListView
         android:id="@+id/listView"
-        android:layout_weight="6.5"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="455dp"
+        android:layout_marginBottom="60dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="8.5"
         android:divider="@null"
         android:dividerHeight="0dp"
-        >
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNamePeople">
+
     </ListView>
+
+
     <LinearLayout
-        android:gravity="center_vertical"
-        android:weightSum="10"
-        android:layout_weight="1.5"
-        android:orientation="horizontal"
+        android:id="@+id/typeBoard"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
-        <Button
-            android:id="@+id/btnAdd"
-            android:text="add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1.5"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
         <EditText
-            android:padding="10dp"
+            android:id="@+id/edtMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
+            android:layout_weight="8.5"
             android:background="@drawable/custom_button"
-            android:id="@+id/edtMessage"
-            android:layout_weight="7"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-        <Button
+            android:padding="10dp" />
+
+        <ImageButton
+            android:id="@+id/btnHeart"
+            android:layout_width="40dp"
+            android:layout_height="45dp"
             android:background="@drawable/custom_button"
-            android:text="Send"
+            android:src="@drawable/heart" />
+
+        <ImageButton
             android:id="@+id/btnSend"
-            android:layout_weight="3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:layout_width="40dp"
+            android:layout_height="45dp"
+            android:layout_weight="1.5"
+            android:background="@drawable/custom_button"
+            android:src="@drawable/iconsend" />
     </LinearLayout>
-</LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

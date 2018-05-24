@@ -38,15 +38,6 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
 
-
-        //Button btnDangKy=(Button)findViewById(R.id.btnDangKy);
-
-//        wifiManager= (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-//
-//        //reset wifi
-//        wifiManager.setWifiEnabled(false);
-//        wifiManager.setWifiEnabled(true);
-
         Thread myThread= new Thread() {
             @Override
             public void run() {
@@ -66,14 +57,6 @@ public class SplashScreen extends AppCompatActivity {
 
         };
         myThread.start();
-
-//        btnDangKy.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent= new Intent(SplashScreen.this, formDangKy.class);
-//                startActivity(intent);
-//            }
-//        });
 
     }
 

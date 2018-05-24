@@ -16,12 +16,14 @@ public class User {
     public int age;
     public int sex;
     public String avatar;
+    public int isOnline;
 
-    public User(String id, String name, int age, int sex, String avatar) {
+    public User(String id, String name, int age, int sex, String avatar, int isOnline) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.sex = sex;
         this.avatar = avatar;
+        this.isOnline = isOnline;
     }
 }

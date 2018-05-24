@@ -6,39 +6,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgOnline"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="63dp"
+        android:layout_height="65dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:src="@drawable/icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.024"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="0dp" />
 
     <TextView
         android:id="@+id/txtNameOnline"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="32dp"
         android:text="tran manh chung"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.219"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        android:textStyle="bold"
+        android:textSize="18dp"
+        app:layout_constraintStart_toEndOf="@+id/imgOnline"
+        tools:layout_editor_absoluteY="0dp"
+        android:layout_marginLeft="32dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/txtAgeOnline"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="26dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -46,15 +43,15 @@
         android:text="21 tuoi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.366"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.084"
+        app:layout_constraintStart_toEndOf="@+id/txtSexOnline"
         app:layout_constraintTop_toBottomOf="@+id/txtNameOnline"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.006" />
 
     <TextView
         android:id="@+id/txtSexOnline"
         android:layout_width="37dp"
-        android:layout_height="21dp"
+        android:layout_height="26dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -62,8 +59,20 @@
         android:text="Nam"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.175"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.098"
+        app:layout_constraintStart_toEndOf="@+id/imgOnline"
         app:layout_constraintTop_toBottomOf="@+id/txtNameOnline"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.006" />
+
+    <ImageView
+        android:id="@+id/imageOnline"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/online"
+        android:layout_marginRight="24dp" />
+
 </android.support.constraint.ConstraintLayout>
